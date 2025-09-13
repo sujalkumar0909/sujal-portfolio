@@ -1,16 +1,20 @@
 import { motion } from 'framer-motion'
 
 const navItems = [
-  { label: 'Home', target: 'Hero' },
+  { label: 'Home', target: 'top' },
   { label: 'About', target: 'about' },
   { label: 'Projects', target: 'middle-info' },
 ]
 
 export default function Dashboard() {
   const scrollToSection = (id) => {
-    const el = document.getElementById(id)
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
+    if (id === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else {
+      const el = document.getElementById(id)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+      }
     }
   }
 

@@ -1,29 +1,36 @@
-import Spline from '@splinetool/react-spline'
+import { Suspense, lazy } from 'react'
+
+const Spline = lazy(() => import('@splinetool/react-spline'))
 
 export default function SplineScene() {
   return (
-    <div
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        zIndex: 0,
-        pointerEvents: 'none',
-        overflow: 'hidden',
-      }}
-    >
+    <Suspense fallback={<div style={{ background: '#000', height: '100vh' }} />}>
       <div
         style={{
-          transform: 'scale(1.2)',              // slightly stronger scale
-          transformOrigin: 'center bottom',     // lift upward from bottom
-          width: '110%',
-          height: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          zIndex: 0,
+          pointerEvents: 'none',
+          overflow: 'hidden',
         }}
       >
-        <Spline scene="https://prod.spline.design/klBEUtXasvTLonze/scene.splinecode" />
+        <div
+          style={{
+            transform: 'scale(1.2)',
+            transformOrigin: 'center bottom',
+            width: '110%',
+            height: '100%',
+          }}
+        >
+          <Spline
+            scene="https://prod.spline.design/klBEUtXasvTLonze/scene.splinecode"
+            renderOnDemand={true} // only renders when needed
+          />
+        </div>
       </div>
-    </div>
+    </Suspense>
   )
 }
