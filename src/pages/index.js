@@ -1,7 +1,7 @@
 import Hero from '../components/Hero'
 import MiddleInfo from '../components/MiddleInfo'
 import FeedbackSection from '../components/FeedbackSection'
-import SplineScene from '../components/SplineScene'
+// import SplineScene from '../components/SplineScene'
 import Bot from '../components/Bot'
 import FeedbackCTA from '../components/FeedbackCTA'
 import Dashboard from '../components/Dashboard'
@@ -20,7 +20,7 @@ export default function Home() {
       <Experience />
       <div style={{ position: 'relative' }}>
         <FeedbackSection />
-        <SplineScene />
+        {/* <SplineScene /> */}
       </div>
       <Bot />
       <FeedbackCTA />

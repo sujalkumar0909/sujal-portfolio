@@ -1,4 +1,33 @@
+import { useState } from 'react'
+
 export default function FeedbackSection() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [message, setMessage] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (!name || !email || !phone || !message) {
+      alert('Please fill out all fields.')
+      return
+    }
+
+    try {
+      await fetch('https://sujal009.app.n8n.cloud/webhook/9459d421-035f-48bd-856c-945618a3f30d', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, message }),
+      })
+
+      setSubmitted(true)
+    } catch (err) {
+      console.error('Submission failed:', err)
+    }
+  }
+
   return (
     <section
       id="feedback-section"
@@ -42,19 +71,57 @@ export default function FeedbackSection() {
       >
         Got thoughts or suggestions? Drop them below.
       </p>
-      <form
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-          width: '100%',
-          maxWidth: '500px',
-        }}
-      >
-        <input type="text" placeholder="Your name" style={inputStyle} />
-        <textarea placeholder="Your feedback" rows="5" style={inputStyle} />
-        <button type="submit" style={buttonStyle}>Send</button>
-      </form>
+
+      {!submitted ? (
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+            width: '100%',
+            maxWidth: '500px',
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            style={inputStyle}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={inputStyle}
+            required
+          />
+          <input
+            type="tel"
+            placeholder="Your phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            style={inputStyle}
+            required
+          />
+          <textarea
+            placeholder="Your feedback"
+            rows="5"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            style={inputStyle}
+            required
+          />
+          <button type="submit" style={buttonStyle}>Send</button>
+        </form>
+      ) : (
+        <p style={{ color: '#0af', fontWeight: '600', fontSize: '1.1rem' }}>
+          Thanks for your feedback! You’ll receive a thank-you email shortly.
+        </p>
+      )}
     </section>
   )
 }
