@@ -15,14 +15,25 @@ export default function FeedbackSection() {
       return
     }
 
+    const formData = new FormData()
+    formData.append('access_key', '44808506-7d9d-4ebe-8a03-f090a9ba038b')
+    formData.append('name', name)
+    formData.append('email', email)
+    formData.append('phone', phone)
+    formData.append('message', message)
+
     try {
-      await fetch('https://sujal009.app.n8n.cloud/webhook/9459d421-035f-48bd-856c-945618a3f30d', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, message }),
+        body: formData,
       })
 
-      setSubmitted(true)
+      const data = await response.json()
+      if (data.success) {
+        setSubmitted(true)
+      } else {
+        alert('Something went wrong. Please try again later.')
+      }
     } catch (err) {
       console.error('Submission failed:', err)
     }
